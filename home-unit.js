@@ -1,5 +1,5 @@
 mqtt = require('mqtt')
-client = mqtt.connect('mqtt://iot.eclipse.org')
+client = mqtt.connect('mqtt://broker.hivemq.com')
 
 
 client.on('connect', () => {
