@@ -27,8 +27,9 @@ client.on('message', (topic, message) => {
 })
 
 port.on("open", function () {
-    console.log('open');
-    port.on('data', function(data) {
-        console.log(data);
-    });
+	console.log('open');
+	port.write("0")
+	port.on('data', function(data) {
+		console.log(data);
+	});
 });
