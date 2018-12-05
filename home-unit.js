@@ -20,7 +20,7 @@ client.on('message', (topic, message) => {
   }
 })
 
-
+/*
 const SerialPort = require('serialport')
 const port = new SerialPort('/dev/ttyACM0', function (err) {
   if (err) {
@@ -44,5 +44,17 @@ port.write('1', function(err) {
 port.on('readable', function () {
   console.log('Data:', port.read())
 })
+
+*/
+
+const SerialPort = require('serialport')
+const Readline = SerialPort.parsers.Readline
+const port = new SerialPort('/dev/ttyACM0')
+const parser = new Readline()
+port.pipe(parser)
+parser.on('data', console.log)
+port.write('1\n')
+// ROBOT ONLINE
+
 
 
