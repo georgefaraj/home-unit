@@ -41,3 +41,8 @@ port.write('1', function(err) {
   console.log('message written')
 })
 
+port.on('readable', function () {
+  console.log('Data:', port.read())
+})
+
+
