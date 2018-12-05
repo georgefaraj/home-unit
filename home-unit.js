@@ -28,6 +28,12 @@ const port = new SerialPort('/dev/ttyACM0', function (err) {
   }
 })
 
+
+// Switches the port into "flowing mode"
+port.on('data', function (data) {
+  console.log('Data:', data)
+})
+
 port.write('1', function(err) {
   if (err) {
     return console.log('Error on write: ', err.message)
@@ -35,9 +41,3 @@ port.write('1', function(err) {
   console.log('message written')
 })
 
-
-
-// Switches the port into "flowing mode"
-port.on('data', function (data) {
-  console.log('Data:', data)
-})
