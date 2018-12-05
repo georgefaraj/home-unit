@@ -81,7 +81,7 @@ port.on("open", () => {
 	
 });
 parser.on('data', data =>{
-  console.log('got word from arduino:', data);
+  console.log('got word from arduino:', data.toString());
 	port.write('2\n');
 	if(data == " TODO TWEET GEN"){
 		 console.log('YAS');
