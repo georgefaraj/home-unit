@@ -57,4 +57,15 @@ port.write('1\n')
 // ROBOT ONLINE
 
 
+port.on('readable', function () {
+  console.log('Data:!', port.read())
+})
+
+// Switches the port into "flowing mode"
+port.on('data', function (data) {
+  console.log('Data:', data)
+})
+
+
+
 
