@@ -3,14 +3,6 @@
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
 
-var serialport = require('serialport');
-var SerialPort = serialport.SerialPort;
-
-var port = new SerialPort("/dev/ttyACM0", {
-    baudrate: 57600,
-    parser: serialport.parsers.readline("\n")
-});
-
 client.on('connect', () => {
 	client.subscribe("Group12Test/Tweety/Post")
 	client.subscribe("Group12Test/Lucibel/On")
@@ -28,10 +20,24 @@ client.on('message', (topic, message) => {
   }
 })
 
-port.on("open", function () {
-	console.log('open');
-	port.write("0")
-	port.on('data', function(data) {
-		console.log(data);
-	});
-});
+
+const SerialPort = require('serialport')
+const port = new SerialPort('/dev/ttyACM0', function (err) {
+  if (err) {
+    return console.log('Error: ', err.message)
+  }
+})
+
+port.write('1', function(err) {
+  if (err) {
+    return console.log('Error on write: ', err.message)
+  }
+  console.log('message written')
+})
+
+
+
+// Switches the port into "flowing mode"
+port.on('data', function (data) {
+  console.log('Data:', data)
+})
