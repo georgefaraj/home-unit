@@ -47,6 +47,7 @@ port.on('readable', function () {
 
 */
 
+/*
 const SerialPort = require('serialport')
 const Readline = SerialPort.parsers.Readline
 const port = new SerialPort('/dev/ttyACM0')
@@ -66,6 +67,18 @@ port.on('data', function (data) {
   console.log('Data:', data)
 })
 
-
+*/
+//https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+const SerialPort = require('serialport');
+const Readline = require('@serialport/parser-readline');
+const port = new SerialPort('/dev/ttyACM0', { baudRate: 57600 });
+const parser = port.pipe(new Readline({ delimiter: '\n' }));
+// Read the port data
+port.on("open", () => {
+  console.log('serial port open');
+});
+parser.on('data', data =>{
+  console.log('got word from arduino:', data);
+});
 
 
