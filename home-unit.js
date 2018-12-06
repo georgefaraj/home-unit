@@ -2,17 +2,54 @@
 
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
+var QUETZA = 0
+var SAN = 0
+var LUCIBEL = 1
+var GRITO = 0
 
 client.on('connect', () => {
-	client.subscribe("Group12Test/Tweety/Post")
-	client.subscribe("Group12Test/Lucibel/On")
-	client.subscribe("Group12Test/Lucibel/Off")
+  console.log("MQTT Connected")
 })
+
+if(QUETZA == 1){
+  const exec = require('child_process').exec;
+  var yourscript = exec('python Quetza.py',(error, stdout, stderr) => {
+    console.log("STDOUT="+`${stdout}`);
+    console.log(`${stderr}`);
+    if (error !== null) {
+      console.log(`exec error: ${error}`);
+    }
+  });
+}
+
+if(SAN == 1){
+  const exec = require('child_process').exec;
+  var yourscript = exec('./San.sh',(error, stdout, stderr) => {
+    console.log("STDOUT="+`${stdout}`);
+    console.log(`${stderr}`);
+    if (error !== null) {
+      console.log(`exec error: ${error}`);
+    }
+  }); 
+}
+
+
+client.on('connect', () => {
+	console.log("MQTT Connected")
+})
+
+
+var lightON = null
+var lightOFF = null
 
 client.on('message', (topic, message) => {
   switch (topic) {
-    case "Group12Test/Tweety/Post":
-		console.log(message+"!")
+    case "Nanika/USERNAME/Raspberry/Lucibel/on":
+		  console.log(message+"!")
+      lightON()
+    case "Nanika/USERNAME/Raspberry/Lucibel/off":
+      console.log(message+"!")
+      lightOFF()
     case "Group12Test/Lucibel/On":
     	console.log(message+"!")
     default:
@@ -20,68 +57,52 @@ client.on('message', (topic, message) => {
   }
 })
 
-/*
-const SerialPort = require('serialport')
-const port = new SerialPort('/dev/ttyACM0', function (err) {
-  if (err) {
-    return console.log('Error: ', err.message)
-  }
-})
-
-
-// Switches the port into "flowing mode"
-port.on('data', function (data) {
-  console.log('Data:', data)
-})
-
-port.write('1', function(err) {
-  if (err) {
-    return console.log('Error on write: ', err.message)
-  }
-  console.log('message written')
-})
-
-port.on('readable', function () {
-  console.log('Data:', port.read())
-})
-
-*/
+if(LUCIBEL == 1){
+  //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+  const SerialPort = require('serialport');
+  const Readline = require('@serialport/parser-readline');
+  const port = new SerialPort('/dev/ttyACM0', { baudRate: 57600 });
+  const parser = port.pipe(new Readline({ delimiter: '\n' }));
+  // Read the port data
+  port.on("open", () => {
+    console.log('Serial Port Open');  
+  });
+  /*
+  parser.on('data', data =>{
+    client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
+    console.log("Published "+data.toString())
+  });
+  */
+}
 
 /*
-const SerialPort = require('serialport')
-const Readline = SerialPort.parsers.Readline
-const port = new SerialPort('/dev/ttyACM0')
-const parser = new Readline()
-port.pipe(parser)
-parser.on('data', console.log)
-port.write('1\n')
-// ROBOT ONLINE
 
-
-port.on('readable', function () {
-  console.log('Data:!', port.read())
-})
-
-// Switches the port into "flowing mode"
-port.on('data', function (data) {
-  console.log('Data:', data)
-})
-
+if(GRITO == 1){
+  //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+  const SerialPort2 = require('serialport');
+  const Readline2 = require('@serialport/parser-readline');
+  const port2 = new SerialPort2('/dev/ttyACM1', { baudRate: 57600 });
+  const parser2 = port.pipe(new Readline({ delimiter: '\n' }));
+  lightOFF = function (){
+    port.write('1\n');
+    port.write('1\n');
+    port.write('1\n');
+    port.write('1\n');
+  }
+  lightON = function (){
+    port.write('2\n');  
+    port.write('2\n');  
+    port.write('2\n');  
+    port.write('2\n');  
+  }
+  // Read the port data
+  port2.on("open", () => {
+    console.log('Serial Port Open'); 
+  });
+  parser2.on('data', data =>{
+    //client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
+    //console.log("Published "+data.toString())
+    console.log()
+  });
+}
 */
-//https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
-const SerialPort = require('serialport');
-const Readline = require('@serialport/parser-readline');
-const port = new SerialPort('/dev/ttyACM0', { baudRate: 57600 });
-const parser = port.pipe(new Readline({ delimiter: '\n' }));
-// Read the port data
-port.on("open", () => {
-  console.log('serial port open');
-	port.write('1\n');
-	port.write('2\n');
-	
-});
-parser.on('data', data =>{
-  console.log(data.toString(),data.toString() == "TODO TWEET GEN");
-});
-
-
