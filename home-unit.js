@@ -45,8 +45,8 @@ var lightOFF = null
 client.on('message', (topic, message) => {
   switch (topic) {
     case "Nanika/USERNAME/Raspberry/Lucibel/on":
-  console.log(message+"!")
-  lightON()
+      console.log(message+"!")
+      lightON()
     case "Nanika/USERNAME/Raspberry/Lucibel/off":
       console.log(message+"!")
       lightOFF()
