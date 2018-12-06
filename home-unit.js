@@ -47,11 +47,11 @@ client.on('message', (topic, message) => {
     case "Nanika/USERNAME/Raspberry/Lucibel/on":
       console.log(message+"!")
       lightON()
+      break;
     case "Nanika/USERNAME/Raspberry/Lucibel/off":
       console.log(message+"!")
       lightOFF()
-    case "Group12Test/Lucibel/On":
-      console.log(message+"!")
+      break;
     default:
       console.log('No handler for topic %s', topic)
   }
