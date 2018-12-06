@@ -35,7 +35,7 @@ if(SAN == 1){
 
 
 client.on('connect', () => {
-	console.log("MQTT Connected")
+  console.log("MQTT Connected")
 })
 
 
@@ -45,15 +45,15 @@ var lightOFF = null
 client.on('message', (topic, message) => {
   switch (topic) {
     case "Nanika/USERNAME/Raspberry/Lucibel/on":
-		  console.log(message+"!")
-      lightON()
+  console.log(message+"!")
+  lightON()
     case "Nanika/USERNAME/Raspberry/Lucibel/off":
       console.log(message+"!")
       lightOFF()
     case "Group12Test/Lucibel/On":
-    	console.log(message+"!")
+      console.log(message+"!")
     default:
-    	console.log('No handler for topic %s', topic)
+      console.log('No handler for topic %s', topic)
   }
 })
 
@@ -67,6 +67,18 @@ if(LUCIBEL == 1){
   port.on("open", () => {
     console.log('Serial Port Open');  
   });
+  lightOFF = function (){
+    port.write('1\n');
+    port.write('1\n');
+    port.write('1\n');
+    port.write('1\n');
+  }
+  lightON = function (){
+    port.write('2\n');  
+    port.write('2\n');  
+    port.write('2\n');  
+    port.write('2\n');  
+  }
   /*
   parser.on('data', data =>{
     client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
