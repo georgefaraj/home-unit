@@ -89,34 +89,19 @@ if(LUCIBEL == 1){
   */
 }
 
-/*
-
+var gritoData = "Dummy"
 if(GRITO == 1){
   //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
   const SerialPort2 = require('serialport');
   const Readline2 = require('@serialport/parser-readline');
   const port2 = new SerialPort2('/dev/ttyACM1', { baudRate: 57600 });
   const parser2 = port.pipe(new Readline({ delimiter: '\n' }));
-  lightOFF = function (){
-    port.write('1\n');
-    port.write('1\n');
-    port.write('1\n');
-    port.write('1\n');
-  }
-  lightON = function (){
-    port.write('2\n');  
-    port.write('2\n');  
-    port.write('2\n');  
-    port.write('2\n');  
-  }
   // Read the port data
   port2.on("open", () => {
-    console.log('Serial Port Open'); 
+    console.log('Serial Port 2 Open'); 
   });
   parser2.on('data', data =>{
-    //client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
-    //console.log("Published "+data.toString())
-    console.log()
+    gritoData = data
   });
 }
-*/
+
