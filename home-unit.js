@@ -95,7 +95,7 @@ if(GRITO == 1){
   const SerialPort2 = require('serialport');
   const Readline2 = require('@serialport/parser-readline');
   const port2 = new SerialPort2('/dev/ttyACM1', { baudRate: 57600 });
-  const parser2 = port.pipe(new Readline({ delimiter: '\n' }));
+  const parser2 = port2.pipe(new Readline({ delimiter: '\n' }));
   // Read the port data
   port2.on("open", () => {
     console.log('Serial Port 2 Open'); 
