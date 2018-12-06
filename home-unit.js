@@ -5,7 +5,7 @@ var client = mqtt.connect('mqtt://broker.hivemq.com')
 var QUETZA = 0
 var SAN = 0
 var LUCIBEL = 1
-var GRITO = 0
+var GRITO = 1
 
 client.on('connect', () => {
   console.log("MQTT Connected")
