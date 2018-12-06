@@ -79,6 +79,8 @@ if(LUCIBEL == 1){
     port.write('2\n');  
     port.write('2\n');  
   }
+  client.subscribe("Nanika/USERNAME/Raspberry/Lucibel/on");
+  client.subscribe("Nanika/USERNAME/Raspberry/Lucibel/off");
   /*
   parser.on('data', data =>{
     client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
