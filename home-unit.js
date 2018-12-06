@@ -101,7 +101,7 @@ if(GRITO == 1){
     console.log('Serial Port 2 Open'); 
   });
   parser2.on('data', data =>{
-    gritoData = data
+    client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
   });
 }
 
