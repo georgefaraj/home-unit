@@ -2,19 +2,19 @@
 
 var mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
-var QUETZA = 0
-var SAN = 0
-var LUCIBEL = 1
-var GRITO = 1
+var LED3      = 0
+var SWITCH    = 1
+var RESISTOR  = 1
+var TWEETIFY  = 0
 
 client.on('connect', () => {
   console.log("MQTT Connected")
 })
 
-if(QUETZA == 1){
+if(TWEETIFY == 1){
   const exec = require('child_process').exec;
-  var yourscript = exec('python Quetza.py',(error, stdout, stderr) => {
-    console.log("STDOUT="+`${stdout}`);
+  var yourscript = exec('./tweetify.sh',(error, stdout, stderr) => {
+    console.log("STDOUT TWEET="+`${stdout}`);
     console.log(`${stderr}`);
     if (error !== null) {
       console.log(`exec error: ${error}`);
@@ -22,10 +22,10 @@ if(QUETZA == 1){
   });
 }
 
-if(SAN == 1){
+if(LED3 == 1){
   const exec = require('child_process').exec;
-  var yourscript = exec('./San.sh',(error, stdout, stderr) => {
-    console.log("STDOUT="+`${stdout}`);
+  var yourscript = exec('./LED3.sh',(error, stdout, stderr) => {
+    console.log("STDOUT LED3="+`${stdout}`);
     console.log(`${stderr}`);
     if (error !== null) {
       console.log(`exec error: ${error}`);
@@ -34,21 +34,16 @@ if(SAN == 1){
 }
 
 
-client.on('connect', () => {
-  console.log("MQTT Connected")
-})
-
-
 var lightON = null
 var lightOFF = null
 
 client.on('message', (topic, message) => {
   switch (topic) {
-    case "Nanika/USERNAME/Raspberry/Lucibel/on":
+    case "Server/USERNAME/Raspberry/Switch/on":
       console.log(message+"!")
       lightON()
       break;
-    case "Nanika/USERNAME/Raspberry/Lucibel/off":
+    case "Server/USERNAME/Raspberry/Switch/off":
       console.log(message+"!")
       lightOFF()
       break;
@@ -57,7 +52,7 @@ client.on('message', (topic, message) => {
   }
 })
 
-if(LUCIBEL == 1){
+if(SWITCH == 1){
   //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
   const SerialPort = require('serialport');
   const Readline = require('@serialport/parser-readline');
@@ -79,18 +74,12 @@ if(LUCIBEL == 1){
     port.write('2\n');  
     port.write('2\n');  
   }
-  client.subscribe("Nanika/USERNAME/Raspberry/Lucibel/on");
-  client.subscribe("Nanika/USERNAME/Raspberry/Lucibel/off");
-  /*
-  parser.on('data', data =>{
-    client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
-    console.log("Published "+data.toString())
-  });
-  */
+  client.subscribe("Server/USERNAME/Raspberry/Switch/on");
+  client.subscribe("Server/USERNAME/Raspberry/Switch/off");
 }
 
-var gritoData = "Dummy"
-if(GRITO == 1){
+var resistorData = "Dummy"
+if(RESISTOR == 1){
   //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
   const SerialPort2 = require('serialport');
   const Readline2 = require('@serialport/parser-readline');
@@ -101,7 +90,7 @@ if(GRITO == 1){
     console.log('Serial Port 2 Open'); 
   });
   parser2.on('data', data =>{
-    client.publish("Nanika/USERNAME/Raspberry/Grito/state",data)
+    client.publish("Server/USERNAME/Raspberry/Resistor/state",data)
   });
 }
 
