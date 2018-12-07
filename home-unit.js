@@ -63,12 +63,14 @@ if(SWITCH == 1){
     console.log('Serial Port Open');  
   });
   lightOFF = function (){
+    console.log('HERE OFF');
     port.write('1\n');
     port.write('1\n');
     port.write('1\n');
     port.write('1\n');
   }
   lightON = function (){
+    console.log('HERE ON');
     port.write('2\n');  
     port.write('2\n');  
     port.write('2\n');  
