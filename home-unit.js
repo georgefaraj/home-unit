@@ -51,7 +51,7 @@ client.on('message', (topic, message) => {
       console.log(message+"!!")
       lightON()
       break;
-    case "Server/USERNAME/Double/on":
+    case "Server/USERNAME/Double/off":
       console.log(message+"!!")
       lightOFF()
       break;
