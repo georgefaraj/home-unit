@@ -1,3 +1,15 @@
+/*
+  home-unit.js
+
+  This node app performs a series of MQTT publishes and subscribes that await user action on the web application.
+  The current version of this application requires the developer to specify what functions are available to the device this is running on.
+  This is done by setting the LED3, SWITCH,RESISTOR,TWEETIFY to 1 to 'activate' the corresponding process.
+
+  This was written by Group 12 
+  The following link was consulted to communicate to devices connected serially
+  https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+*/
+
 'use strict'
 
 var mqtt = require('mqtt')
@@ -51,7 +63,7 @@ client.on('message', (topic, message) => {
       console.log(message+"!!")
       lightON()
       break;
-    case "Server/USERNAME/Double/off":
+    case "Server/USERNAME/Double/on":
       console.log(message+"!!")
       lightOFF()
       break;
@@ -61,7 +73,7 @@ client.on('message', (topic, message) => {
 })
 
 if(SWITCH == 1){
-  //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+
   const SerialPort = require('serialport');
   const Readline = require('@serialport/parser-readline');
   const port = new SerialPort('/dev/ttyACM0', { baudRate: 57600 });
@@ -92,7 +104,7 @@ if(SWITCH == 1){
 
 var resistorData = "Dummy"
 if(RESISTOR == 1){
-  //https://medium.com/@machadogj/arduino-and-node-js-via-serial-port-bcf9691fab6a
+
   const SerialPort2 = require('serialport');
   const Readline2 = require('@serialport/parser-readline');
   const port2 = new SerialPort2('/dev/ttyACM1', { baudRate: 57600 });
