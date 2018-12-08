@@ -47,6 +47,14 @@ client.on('message', (topic, message) => {
       console.log(message+"!")
       lightOFF()
       break;
+    case "Server/USERNAME/Double/on":
+      console.log(message+"!!")
+      lightON()
+      break;
+    case "Server/USERNAME/Double/on":
+      console.log(message+"!!")
+      lightOFF()
+      break;
     default:
       console.log('No handler for topic %s', topic)
   }
@@ -78,6 +86,8 @@ if(SWITCH == 1){
   }
   client.subscribe("Server/USERNAME/Raspberry/Switch/on");
   client.subscribe("Server/USERNAME/Raspberry/Switch/off");
+  client.subscribe("Server/USERNAME/Double/on");
+  client.subscribe("Server/USERNAME/Double/off");
 }
 
 var resistorData = "Dummy"
@@ -95,4 +105,3 @@ if(RESISTOR == 1){
     client.publish("Server/USERNAME/Raspberry/Resistor/state",data)
   });
 }
-
